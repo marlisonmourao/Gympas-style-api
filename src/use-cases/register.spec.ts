@@ -1,15 +1,20 @@
 import { UserAlreadyExistsError } from '@/errors/user-already-exists-error'
 import { InMemoryUserReposity } from '@/repositories/in-memory/in-memory-users-repository'
 import { compare } from 'bcryptjs'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { RegisterUserCase } from './register'
 
-describe('Register Use case', () => {
-  it('should be able to register', async () => {
-    const usersRepository = new InMemoryUserReposity()
-    const registerUserCase = new RegisterUserCase(usersRepository)
+let usersRepository: InMemoryUserReposity
+let sut: RegisterUserCase
 
-    const { user } = await registerUserCase.execute({
+describe('Register Use case', () => {
+  beforeEach(() => {
+    usersRepository = new InMemoryUserReposity()
+    sut = new RegisterUserCase(usersRepository)
+  })
+
+  it('should be able to register', async () => {
+    const { user } = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@email.com',
       password: '1234546',
@@ -19,10 +24,7 @@ describe('Register Use case', () => {
   })
 
   it('should hash user password upon registration', async () => {
-    const usersRepository = new InMemoryUserReposity()
-    const registerUserCase = new RegisterUserCase(usersRepository)
-
-    const { user } = await registerUserCase.execute({
+    const { user } = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@email.com',
       password: '1234546',
@@ -37,19 +39,16 @@ describe('Register Use case', () => {
   })
 
   it('should not be able to register with same email twice', async () => {
-    const usersRepository = new InMemoryUserReposity()
-    const registerUserCase = new RegisterUserCase(usersRepository)
-
     const email = 'johndoe@email.com'
 
-    await registerUserCase.execute({
+    await sut.execute({
       name: 'John Doe',
       email: 'johndoe@email.com',
       password: '1234546',
     })
 
     await expect(() =>
-      registerUserCase.execute({
+      sut.execute({
         name: 'John Doe',
         email,
         password: '1234546',
