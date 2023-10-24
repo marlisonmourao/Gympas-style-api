@@ -1,14 +1,14 @@
-import { InMemoryCheckInsReposity } from '@/repositories/in-memory/in-memory-check-ins-repository'
+import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { FetchUserCheckInsHistoryUseCase } from './fetch-user-check-ins-history'
 
-let checkIsRepository: InMemoryCheckInsReposity
+let checkIsRepository: InMemoryCheckInsRepository
 let sut: FetchUserCheckInsHistoryUseCase
 
 describe('Fetch Check-in History Use Case', () => {
   beforeEach(async () => {
-    checkIsRepository = new InMemoryCheckInsReposity()
+    checkIsRepository = new InMemoryCheckInsRepository()
     sut = new FetchUserCheckInsHistoryUseCase(checkIsRepository)
   })
 
