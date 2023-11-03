@@ -2,7 +2,7 @@ import { makeGymsUseCase } from '@/use-cases/factores/make-gyms-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function register(request: FastifyRequest, reply: FastifyReply) {
+export async function create(request: FastifyRequest, reply: FastifyReply) {
   const createGymsBodySchema = z.object({
     title: z.string(),
     description: z.string().nullable(),
