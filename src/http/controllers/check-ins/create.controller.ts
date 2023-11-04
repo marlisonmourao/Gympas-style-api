@@ -22,10 +22,10 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
   const checkInUseCase = makeCheckInUseCase()
 
   await checkInUseCase.execute({
-    userLongitude: latitude,
-    userLatitude: longitude,
     gymId,
     userId: request.user.sub,
+    userLongitude: longitude,
+    userLatitude: latitude,
   })
 
   return reply.status(201).send()
