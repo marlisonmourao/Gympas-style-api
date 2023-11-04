@@ -1,14 +1,14 @@
-import { verifyJWT } from '@/middlewares/verify-jwt'
 import { FastifyInstance } from 'fastify'
+
+import { verifyJWT } from '@/middlewares/verify-jwt'
 import { create } from './create.controller'
 import { nearby } from './nearby.controller'
 import { search } from './search.controller'
 
-export async function gymsRouter(app: FastifyInstance) {
+export async function gymsRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
 
   app.get('/gyms/search', search)
-  app.get('/gyms/search', nearby)
-
+  app.get('/gyms/nearby', nearby)
   app.post('/gyms', create)
 }
